@@ -19,10 +19,10 @@ export default function Navbar() {
     { href: '/contatto', label: t('nav.contact') },
   ]
 
-  const toggleLang = () => {
-    const next = i18n.language === 'it' ? 'en' : 'it'
-    i18n.changeLanguage(next)
-    localStorage.setItem('brothers-lang', next)
+  const langs = ['de', 'it', 'en'] as const
+  const setLang = (lang: string) => {
+    i18n.changeLanguage(lang)
+    localStorage.setItem('brothers-lang', lang)
   }
 
   useEffect(() => {
@@ -81,14 +81,23 @@ export default function Navbar() {
             ))}
 
             {/* Language Switcher */}
-            <button
-              onClick={toggleLang}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 hover:border-[#c8a96e] text-white/70 hover:text-[#c8a96e] text-xs font-semibold transition-all duration-300"
-            >
-              <span className={i18n.language === 'it' ? 'text-[#c8a96e]' : ''}>IT</span>
-              <span className="text-white/30">|</span>
-              <span className={i18n.language === 'en' ? 'text-[#c8a96e]' : ''}>EN</span>
-            </button>
+            <div className="flex items-center gap-1 px-2 py-1.5 rounded-full border border-white/20 text-xs font-semibold">
+              {langs.map((lang, idx) => (
+                <span key={lang} className="flex items-center">
+                  {idx > 0 && <span className="text-white/20 mx-1">|</span>}
+                  <button
+                    onClick={() => setLang(lang)}
+                    className={`px-1.5 py-0.5 rounded transition-all duration-200 ${
+                      i18n.language === lang
+                        ? 'text-[#c8a96e] bg-white/10'
+                        : 'text-white/50 hover:text-white'
+                    }`}
+                  >
+                    {lang.toUpperCase()}
+                  </button>
+                </span>
+              ))}
+            </div>
 
             <Link
               to="/prenotazione"
@@ -141,14 +150,25 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Language Switch */}
-            <button
-              onClick={toggleLang}
-              className="mb-4 flex items-center justify-center gap-3 py-3 rounded-xl border border-white/20 text-white text-sm font-semibold"
-            >
-              <span className={i18n.language === 'it' ? 'text-[#c8a96e]' : 'text-white/50'}>🇮🇹 Italiano</span>
-              <span className="text-white/30">|</span>
-              <span className={i18n.language === 'en' ? 'text-[#c8a96e]' : 'text-white/50'}>🇬🇧 English</span>
-            </button>
+            <div className="mb-4 flex items-center justify-center gap-2 py-3 rounded-xl border border-white/20">
+              {[
+                { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
+                { code: 'it', flag: '🇮🇹', label: 'Italiano' },
+                { code: 'en', flag: '🇬🇧', label: 'English' },
+              ].map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => setLang(lang.code)}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
+                    i18n.language === lang.code
+                      ? 'bg-[#c8a96e]/20 text-[#c8a96e]'
+                      : 'text-white/50 hover:text-white'
+                  }`}
+                >
+                  {lang.flag} {lang.label}
+                </button>
+              ))}
+            </div>
 
             <Link
               to="/prenotazione"

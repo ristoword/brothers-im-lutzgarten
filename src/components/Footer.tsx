@@ -49,9 +49,9 @@ export default function Footer() {
               {[
                 { day: 'Mo – Fr', time: '11:30 – 14:30' },
                 { day: 'Mo – Fr', time: '17:30 – 22:30' },
-                { day: t('contact_page.hours_2').split('·')[0].trim().split(':')[0].includes('Sa') ? 'Samstag' : 'Saturday', time: '12:00 – 23:00' },
-                { day: t('contact_page.hours_2').split('·')[1]?.trim().split(':')[0].includes('Do') ? 'Sonntag' : 'Sunday', time: '12:00 – 22:00' },
-                { day: t('contact_page.hours_3').split(':')[0].includes('Ma') ? 'Dienstag' : 'Tuesday', time: t('footer.rest_day') },
+                { day: 'Sa', time: '12:00 – 23:00' },
+                { day: 'So', time: '12:00 – 22:00' },
+                { day: 'Di', time: t('footer.rest_day') },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm">
                   <Clock size={14} className="text-[#c8a96e] mt-0.5 flex-shrink-0" />
