@@ -2,20 +2,28 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Utensils } from 'lucide-react'
-
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/menu', label: 'Speisekarte' },
-  { href: '/eventi', label: 'Events' },
-  { href: '/galleria', label: 'Gallerie' },
-  { href: '/feedback', label: 'Reviews' },
-  { href: '/contatto', label: 'Kontakt' },
-]
+import { useTranslation } from 'react-i18next'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const { t, i18n } = useTranslation()
+
+  const navLinks = [
+    { href: '/', label: t('nav.home') },
+    { href: '/menu', label: t('nav.menu') },
+    { href: '/eventi', label: t('nav.events') },
+    { href: '/galleria', label: t('nav.gallery') },
+    { href: '/feedback', label: t('nav.feedback') },
+    { href: '/contatto', label: t('nav.contact') },
+  ]
+
+  const toggleLang = () => {
+    const next = i18n.language === 'it' ? 'en' : 'it'
+    i18n.changeLanguage(next)
+    localStorage.setItem('brothers-lang', next)
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -71,11 +79,22 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+
+            {/* Language Switcher */}
+            <button
+              onClick={toggleLang}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 hover:border-[#c8a96e] text-white/70 hover:text-[#c8a96e] text-xs font-semibold transition-all duration-300"
+            >
+              <span className={i18n.language === 'it' ? 'text-[#c8a96e]' : ''}>IT</span>
+              <span className="text-white/30">|</span>
+              <span className={i18n.language === 'en' ? 'text-[#c8a96e]' : ''}>EN</span>
+            </button>
+
             <Link
               to="/prenotazione"
               className="bg-[#c8a96e] hover:bg-[#e8c98e] text-[#1a3a2a] font-semibold text-sm px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#c8a96e]/30 hover:-translate-y-0.5"
             >
-              Reservierung
+              {t('nav.reservation')}
             </Link>
           </div>
 
@@ -120,11 +139,22 @@ export default function Navbar() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Mobile Language Switch */}
+            <button
+              onClick={toggleLang}
+              className="mb-4 flex items-center justify-center gap-3 py-3 rounded-xl border border-white/20 text-white text-sm font-semibold"
+            >
+              <span className={i18n.language === 'it' ? 'text-[#c8a96e]' : 'text-white/50'}>🇮🇹 Italiano</span>
+              <span className="text-white/30">|</span>
+              <span className={i18n.language === 'en' ? 'text-[#c8a96e]' : 'text-white/50'}>🇬🇧 English</span>
+            </button>
+
             <Link
               to="/prenotazione"
               className="block text-center bg-[#c8a96e] text-[#1a3a2a] font-bold text-lg py-4 rounded-2xl"
             >
-              Reservierung
+              {t('nav.reservation')}
             </Link>
           </motion.div>
         )}
