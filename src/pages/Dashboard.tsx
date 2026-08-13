@@ -9,7 +9,7 @@ import { useRestaurantStore } from '../store/restaurantStore'
 import type { MenuItem, Event, GalleryPhoto } from '../store/restaurantStore'
 import toast from 'react-hot-toast'
 
-const ADMIN_PASSWORD = 'brothers2026'
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'brothers2026'
 
 type Tab = 'overview' | 'menu' | 'events' | 'gallery' | 'feedback' | 'reservations'
 
@@ -61,7 +61,7 @@ export default function Dashboard() {
               Accedi
             </button>
           </form>
-          <p className="text-center text-gray-400 text-xs mt-6">Password demo: brothers2026</p>
+          <p className="text-center text-gray-400 text-xs mt-6">Accesso riservato al proprietario</p>
         </motion.div>
       </div>
     )
